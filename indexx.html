@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART - AG</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url(/agri\ 2.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 100%;
+            height: 1000px;
+            
+        
+
+        }
+
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            padding-bottom: 70px;
+            margin-top: 70px;
+        }
+
+        .button {
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            margin: 10px 0;
+            text-align: center;
+            border-radius: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .button.green {
+            background: linear-gradient(to right, #07660e, #0e8c1b);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button.gray {
+            background: linear-gradient(to right, #494848, #2f2e2e);
+            color: #0b0b0b;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            
+        }
+
+        .button.green:hover, .button.gray:hover {
+            transform: scale(1.05);
+            transition: 0.3s;
+        }
+
+        .icon {
+            margin-left: 10px;
+        }
+        a{
+            color: white;
+            text-decoration: none;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 10px;
+            background: linear-gradient(to right, #07660e, #0e8c1b);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-shadow: 100px;
+            padding-left: 20px;
+            font-weight: bolder;
+
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #0b0b0b;
+            text-decoration: none;
+            font-weight: bolder;
+            font-size: medium;
+            padding-right: 50px;
+        }
+        nav a:hover{
+            color: #f7f7f7;
+            text-decoration: none;
+            font-weight: bolder;
+            font-size: medium;
+            padding-right: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>SMART - AG</h1>
+        <nav>
+            <a href="/login.html">Home</a>
+            <a href="/indexx.html" style="color: #d3d3d3;">Features</a>
+            <a href="/profit.html">profit calculation</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="button green"><a href="/updatecrop.html">Crop Prediction</a> <span class="icon">🌿</span></div>
+        <div class="button gray"><a href="/cropyield.html">Crop Yield Prediction</a> <span class="icon">🍎</span></div>
+        <div class="button green"><a href="/weather.html">Weather Prediction</a> <span class="icon">🌤️</span></div>
+        <div class="button gray"><a href="/newsfinal.html">Agri news & Chatbot</a><span class="icon"></span></div>
+        <div class="button green"><a href="/profit.html">Profit Calculation</a><span class="icon">🤝</span></div>
+        <div class="button gray"><a href="/planntdiseaese.html">Plant Disease Identification & Solution</a></div>
+        <div class="button green"><a href="#">product Sales & Buy</a></div>
+        <div class="button gray"><a href="#">Connect with Experts</a><span class="icon">🤝</span></div>
+    </div>
+
+</body>
+</html>

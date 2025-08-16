@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Yield Prediction System</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 10px;
+            background: linear-gradient(to right, #07660e, #0e8c1b);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-shadow: 100px;
+            padding-left: 20px;
+            font-weight: bolder;
+
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #0b0b0b;
+            text-decoration: none;
+            font-weight: bolder;
+            font-size: medium;
+            padding-right: 50px;
+        }
+        nav a:hover{
+            color: #f7f7f7;
+            text-decoration: none;
+            font-weight: bolder;
+            font-size: medium;
+            padding-right: 50px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .prediction-box {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .prediction-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4caf50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin: 10px 0;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .input-group button {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .input-group button:hover {
+            background-color: #45a049;
+        }
+
+        .results {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .results h3 {
+            color: #4caf50;
+        }
+
+        .results p {
+            margin: 5px 0;
+        }
+
+        .growth-guide {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e7f7e7;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .growth-guide h4 {
+            color: #4caf50;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>SMART - AG</h1>
+        <nav>
+            <a href="/login.html">Home</a>
+            <a href="/indexx.html" style="color: #e7f7e7;">Features</a>
+            <a href="/profit.html">profit calculation</a>
+        </nav>
+    </header>
+<br>
+<br>
+    <div class="container">
+        <div class="prediction-box">
+            <div class="prediction-title">Crop Yield Prediction System</div>
+
+            <!-- Form Inputs -->
+            <div class="input-group">
+                <label for="crop-name">Crop Name</label>
+                <input type="text" id="crop-name" placeholder="Enter crop name">
+            </div>
+
+            <div class="input-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" placeholder="Enter location">
+            </div>
+
+            <div class="input-group">
+                <label for="nitrogen">Nitrogen Content (N)</label>
+                <input type="number" id="nitrogen" placeholder="Enter nitrogen content">
+            </div>
+
+            <div class="input-group">
+                <label for="phosphorus">Phosphorus Content (P)</label>
+                <input type="number" id="phosphorus" placeholder="Enter phosphorus content">
+            </div>
+
+            <div class="input-group">
+                <label for="potassium">Potassium Content (K)</label>
+                <input type="number" id="potassium" placeholder="Enter potassium content">
+            </div>
+
+            <div class="input-group">
+                <label for="temperature">Temperature (°C)</label>
+                <input type="number" id="temperature" placeholder="Enter temperature">
+            </div>
+
+            <div class="input-group">
+                <label for="humidity">Humidity (%)</label>
+                <input type="number" id="humidity" placeholder="Enter humidity">
+            </div>
+
+            <div class="input-group">
+                <label for="soilph">Soil pH</label>
+                <input type="number" id="soilph" placeholder="Enter soil pH">
+            </div>
+
+            <div class="input-group">
+                <label for="rainfall">Rainfall (mm)</label>
+                <input type="number" id="rainfall" placeholder="Enter rainfall">
+            </div>
+
+            <div class="input-group">
+                <label for="water-supply">Water Supply</label>
+                <select id="water-supply">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="soil-type">Soil Type</label>
+                <select id="soil-type">
+                    <option value="sandy">Sandy</option>
+                    <option value="clay">Clay</option>
+                    <option value="loamy">Loamy</option>
+                    <option value="silty">Silty</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <button onclick="predictYield()">Predict Yield</button>
+            </div>
+
+            <div class="results" id="results"></div>
+            <div class="growth-guide" id="growth-guide"></div>
+        </div>
+    </div>
+
+    <script>
+        function predictYield() {
+            // Get user inputs
+            const cropName = document.getElementById('crop-name').value;
+            const location = document.getElementById('location').value;
+            const nitrogen = document.getElementById('nitrogen').value;
+            const phosphorus = document.getElementById('phosphorus').value;
+            const potassium = document.getElementById('potassium').value;
+            const temperature = document.getElementById('temperature').value;
+            const humidity = document.getElementById('humidity').value;
+            const soilph = document.getElementById('soilph').value;
+            const rainfall = document.getElementById('rainfall').value;
+            const waterSupply = document.getElementById('water-supply').value;
+            const soilType = document.getElementById('soil-type').value;
+
+            // Check if all fields are filled
+            if (!cropName || !location || !nitrogen || !phosphorus || !potassium || !temperature || !humidity || !soilph || !rainfall) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Prepare results display
+            let resultsDiv = document.getElementById('results');
+            let growthGuideDiv = document.getElementById('growth-guide');
+            resultsDiv.innerHTML = '';
+            growthGuideDiv.innerHTML = '';
+
+            // Yield prediction logic
+            let yieldPrediction = 0;
+            let growthGuide = '';
+
+            if (soilType === "loamy" && waterSupply === "yes" && soilph >= 6 && soilph <= 7) {
+                // Assuming a fixed yield percentage for favorable conditions
+                yieldPrediction = 87.29478; // Example yield prediction in percentage
+                growthGuide = `
+                    <h4>How to Grow ${cropName} for Optimal Yield</h4>
+                    <p>1. <strong>Planting:</strong> Begin by planting ${cropName} seeds at a depth of about 2-3 cm in loamy soil. Ensure that the soil is well-drained and has an appropriate pH level (6-7).</p>
+                    <p>2. <strong>Watering:</strong> Ensure regular watering, especially during dry spells, but avoid waterlogging. ${cropName} thrives with moderate water supply.</p>
+                    <p>3. <strong>Fertilization:</strong> Apply a balanced fertilizer containing nitrogen, phosphorus, and potassium at regular intervals during the growing season.</p>
+                    <p>4. <strong>Temperature & Humidity:</strong> Maintain a temperature range of 20-30°C and humidity around 60-80%. Avoid extreme temperatures.</p>
+                    <p>5. <strong>Harvesting:</strong> Harvest ${cropName} when the plants show signs of maturity, typically when the leaves start turning yellow or drying. This ensures maximum yield.</p>
+                    <p>By following these steps, you can achieve a high yield and maximize your crop's potential in this location.</p>
+                `;
+                resultsDiv.innerHTML = `
+                    <h3>Crop Yield Prediction for ${cropName} at ${location}</h3>
+                    <p><strong>Predicted Yield Percentage:</strong> ${yieldPrediction}%</p>
+                `;
+            }  else if (soilType === "sandy" && waterSupply === "yes" && soilph >= 5 && soilph <= 6) {
+                // Assuming a fixed yield percentage for favorable conditions
+                yieldPrediction = 91.96321 ; // Example yield prediction in percentage
+                growthGuide = `
+                    <h4>How to Grow ${cropName} for Optimal Yield</h4>
+                    <p>1. <strong>Planting:</strong> Begin by planting ${cropName} seeds at a depth of about 2-3 cm in sandy soil. Ensure that the soil is well-drained and has an appropriate pH level (6-7).</p>
+                    <p>2. <strong>Watering:</strong> Ensure regular watering, especially during dry spells, but avoid waterlogging. ${cropName} thrives with moderate water supply.</p>
+                    <p>3. <strong>Fertilization:</strong> Apply a balanced fertilizer containing nitrogen, phosphorus, and potassium at regular intervals during the growing season.</p>
+                    <p>4. <strong>Temperature & Humidity:</strong> Maintain a temperature range of 20-30°C and humidity around 60-80%. Avoid extreme temperatures.</p>
+                    <p>5. <strong>Harvesting:</strong> Harvest ${cropName} when the plants show signs of maturity, typically when the leaves start turning yellow or drying. This ensures maximum yield.</p>
+                    <p>By following these steps, you can achieve a high yield and maximize your crop's potential in this location.</p>
+                `;
+                resultsDiv.innerHTML = `
+                    <h3>Crop Yield Prediction for ${cropName} at ${location}</h3>
+                    <p><strong>Predicted Yield Percentage:</strong> ${yieldPrediction}%</p>
+                `;
+            }else if (soilType === "clay" && waterSupply === "yes" && soilph >= 8 && soilph <= 9) {
+                // Assuming a fixed yield percentage for favorable conditions
+                yieldPrediction = 95.81321 ; // Example yield prediction in percentage
+                growthGuide = `
+                    <h4>How to Grow ${cropName} for Optimal Yield</h4>
+                    <p>1. <strong>Planting:</strong> Begin by planting ${cropName} seeds at a depth of about 2-3 cm in clay soil. Ensure that the soil is well-drained and has an appropriate pH level (6-7).</p>
+                    <p>2. <strong>Watering:</strong> Ensure regular watering, especially during dry spells, but avoid waterlogging. ${cropName} thrives with moderate water supply.</p>
+                    <p>3. <strong>Fertilization:</strong> Apply a balanced fertilizer containing nitrogen, phosphorus, and potassium at regular intervals during the growing season.</p>
+                    <p>4. <strong>Temperature & Humidity:</strong> Maintain a temperature range of 20-30°C and humidity around 60-80%. Avoid extreme temperatures.</p>
+                    <p>5. <strong>Harvesting:</strong> Harvest ${cropName} when the plants show signs of maturity, typically when the leaves start turning yellow or drying. This ensures maximum yield.</p>
+                    <p>By following these steps, you can achieve a high yield and maximize your crop's potential in this location.</p>
+                `;
+                resultsDiv.innerHTML = `
+                    <h3>Crop Yield Prediction for ${cropName} at ${location}</h3>
+                    <p><strong>Predicted Yield Percentage:</strong> ${yieldPrediction}%</p>
+                `;
+            }else if (soilType === "silty" && waterSupply === "yes" && soilph >= 7 && soilph <= 8) {
+                // Assuming a fixed yield percentage for favorable conditions
+                yieldPrediction = 79.99998 ; // Example yield prediction in percentage
+                growthGuide = `
+                    <h4>How to Grow ${cropName} for Optimal Yield</h4>
+                    <p>1. <strong>Planting:</strong> Begin by planting ${cropName} seeds at a depth of about 2-3 cm in silty soil. Ensure that the soil is well-drained and has an appropriate pH level (6-7).</p>
+                    <p>2. <strong>Watering:</strong> Ensure regular watering, especially during dry spells, but avoid waterlogging. ${cropName} thrives with moderate water supply.</p>
+                    <p>3. <strong>Fertilization:</strong> Apply a balanced fertilizer containing nitrogen, phosphorus, and potassium at regular intervals during the growing season.</p>
+                    <p>4. <strong>Temperature & Humidity:</strong> Maintain a temperature range of 20-30°C and humidity around 60-80%. Avoid extreme temperatures.</p>
+                    <p>5. <strong>Harvesting:</strong> Harvest ${cropName} when the plants show signs of maturity, typically when the leaves start turning yellow or drying. This ensures maximum yield.</p>
+                    <p>By following these steps, you can achieve a high yield and maximize your crop's potential in this location.</p>
+                `;
+                resultsDiv.innerHTML = `
+                    <h3>Crop Yield Prediction for ${cropName} at ${location}</h3>
+                    <p><strong>Predicted Yield Percentage:</strong> ${yieldPrediction}%</p>
+                `;
+            }
+             else {
+                resultsDiv.innerHTML = `
+                    <h3>No suitable conditions found for ${cropName} at ${location}</h3>
+                    <p>Try adjusting the input values for better yield prediction.</p>
+                `;
+            }
+
+            // Display growth guide
+            if (growthGuide) {
+                growthGuideDiv.innerHTML = growthGuide;
+            }
+        }
+    </script>
+</body>
+</html>

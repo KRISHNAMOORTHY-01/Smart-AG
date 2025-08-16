@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Prediction</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://via.placeholder.com/') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 10px;
+            background: linear-gradient(to right, #07660e, #0e8c1b);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-shadow: 100px;
+            padding-left: 20px;
+            font-weight: bolder;
+
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #0b0b0b;
+            text-decoration: none;
+            font-weight: bolder;
+            font-size: medium;
+            padding-right: 50px;
+        }
+        nav a:hover{
+            color: #f7f7f7;
+            text-decoration: none;
+            font-weight: bolder;
+            font-size: medium;
+            padding-right: 50px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+        }
+
+        .weather-box {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            width: 50%;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .weather-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #07660e;
+        }
+
+        .weather-info {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .input-group input {
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+            width: 70%;
+        }
+
+        .input-group button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #07660e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .input-group button:hover {
+            background-color: #0e8c1b;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>SMART - AG</h1>
+        <nav>
+            <a href="/login.html">Home</a>
+            <a href="/indexx.html" style="color: #eef9f1;">Features</a>
+            <a href="/profit.html">profit calculation</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="weather-box">
+            <div class="weather-title">Weather Prediction</div>
+            <div class="input-group">
+                <input type="text" id="city" placeholder="Enter your city">
+                <button onclick="getWeather()">Predict</button>
+            </div>
+            <div class="weather-info" id="result">Enter a city to get the weather prediction!</div>
+        </div>
+    </div>
+
+    <script>
+        function getWeather() {
+            const city = document.getElementById('city').value;
+            const result = document.getElementById('result');
+
+            if (!city) {
+                result.textContent = 'Please enter a city name!';
+                return;
+            }
+
+            // Example weather prediction logic (Replace with API integration)
+            const predictions = [
+                'Sunny with a high of 30°C',
+                'Cloudy with a chance of rain',
+                'Rainy with thunderstorms',
+                'Partly cloudy with mild temperatures'
+            ];
+
+            const randomPrediction = predictions[Math.floor(Math.random() * predictions.length)];
+            result.textContent = `Weather in ${city}: ${randomPrediction}`;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Profit Calculation System</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fc;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 10px;
+            background: linear-gradient(to right, #07660e, #0e8c1b);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-shadow: 100px;
+            padding-left: 20px;
+            font-weight: bolder;
+
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #0b0b0b;
+            text-decoration: none;
+            font-weight: bolder;
+            font-size: medium;
+            padding-right: 50px;
+        }
+        nav a:hover{
+            color: #f7f7f7;
+            text-decoration: none;
+            font-weight: bolder;
+            font-size: medium;
+            padding-right: 50px;
+        }
+
+
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .prediction-box {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .prediction-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4caf50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin: 10px 0;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .input-group button {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .input-group button:hover {
+            background-color: #45a049;
+        }
+
+        .results {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .results h3 {
+            color: #4caf50;
+        }
+
+        .results p {
+            margin: 5px 0;
+        }
+
+        .results .output {
+            background-color: #eef9f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>SMART - AG</h1>
+        <nav>
+            <a href="/login.html">Home</a>
+            <a href="/indexx.html">Features</a>
+            <a href="/profit.html" style="color: #eef9f1;">profit calculation</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="prediction-box">
+            <div class="prediction-title">Crop Profit Calculation</div>
+
+            <!-- Input Fields -->
+            <div class="input-group">
+                <label for="crop-name">Enter Crop Name</label>
+                <input type="text" id="crop-name" placeholder="e.g., Wheat">
+            </div>
+
+            <div class="input-group">
+                <label for="crop-price">Market Price per kg (₹)</label>
+                <input type="number" id="crop-price" placeholder="Enter price per kg">
+            </div>
+
+            <div class="input-group">
+                <label for="yield">how much you get (kg)</label>
+                <input type="number" id="yield" placeholder="Enter received yield">
+            </div>
+
+            <div class="input-group">
+                <label for="crop-expenses">Crop Expenses (₹)</label>
+                <input type="number" id="crop-expenses" placeholder="Enter crop expenses">
+            </div>
+
+            <div class="input-group">
+                <label for="fertilizer-expenses">Fertilizer Expenses (₹)</label>
+                <input type="number" id="fertilizer-expenses" placeholder="Enter fertilizer expenses">
+            </div>
+
+            <div class="input-group">
+                <label for="harvesting-expenses">Harvesting Expenses (₹)</label>
+                <input type="number" id="harvesting-expenses" placeholder="Enter harvesting expenses">
+            </div>
+
+            <div class="input-group">
+                <label for="other-expenses">Other Expenses (₹)</label>
+                <input type="number" id="other-expenses" placeholder="Enter other expenses">
+            </div>
+
+            <div class="input-group">
+                <button onclick="calculateProfit()">Calculate Profit</button>
+            </div>
+
+            <!-- Results will be displayed here -->
+            <div class="results" id="results"></div>
+        </div>
+    </div>
+
+    <script>
+        function calculateProfit() {
+            // Get the input values
+            const cropName = document.getElementById('crop-name').value.trim();
+            const cropPrice = parseFloat(document.getElementById('crop-price').value);
+            const yieldAmount = parseFloat(document.getElementById('yield').value);
+            const cropExpenses = parseFloat(document.getElementById('crop-expenses').value);
+            const fertilizerExpenses = parseFloat(document.getElementById('fertilizer-expenses').value);
+            const harvestingExpenses = parseFloat(document.getElementById('harvesting-expenses').value);
+            const otherExpenses = parseFloat(document.getElementById('other-expenses').value);
+
+            // Validate the inputs
+            if (!cropName || !cropPrice || !yieldAmount || !cropExpenses || !fertilizerExpenses || !harvestingExpenses || !otherExpenses) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Calculate the total expenses
+            const totalExpenses = cropExpenses + fertilizerExpenses + harvestingExpenses + otherExpenses;
+
+            // Calculate the total revenue
+            const totalRevenue = cropPrice * yieldAmount;
+
+            // Calculate profit
+            const profit = totalRevenue - totalExpenses;
+
+            // Calculate profit percentage
+            const profitPercentage = ((profit / totalExpenses) * 100).toFixed(2);
+
+            // Display the results
+            let resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <h3>Profit Calculation for ${cropName}:</h3>
+                <div class="output">
+                    <p><strong>Total Money Spent:</strong> ₹${totalExpenses}</p>
+                    <p><strong>Total Revenue:</strong> ₹${totalRevenue}</p>
+                    <p><strong>Profit Earned:</strong> ₹${profit}</p>
+                    <p><strong>Profit Percentage:</strong> ${profitPercentage}%</p>
+                </div>
+            `;
+        }
+    </script>
+
+</body>
+</html>

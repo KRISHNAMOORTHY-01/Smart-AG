@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agriculture Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px;
+        }
+        .section {
+            background: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            padding: 15px;
+            width: 45%;
+            text-align: center;
+        }
+        .chat-box {
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+        .chat-message {
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 4px;
+            max-width: 70%;
+        }
+        .user-message {
+            background-color: #e1ffe1;
+            align-self: flex-end;
+        }
+        .bot-message {
+            background-color: #d9edf7;
+            align-self: flex-start;
+        }
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ddd;
+            padding: 10px;
+            background-color: #fff;
+            gap: 10px;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .chat-input button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .chat-input input[type="file"] {
+            flex: none;
+        }
+        iframe {
+            width: 95%;
+            height: 380px;
+            border: none;
+            border-radius: 20px;
+            /* allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; */
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+        }
+        .news-link {
+            display: block;
+            margin: 10px auto;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 200px;
+            text-align: center;
+        }
+        .voice-record {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .message-image {
+            max-width: 200px;
+            margin-top: 10px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 10px;
+            background: linear-gradient(to right, #07660e, #0e8c1b);
+        }
+
+        header h2 {
+            margin: 0;
+            font-size: 24px;
+            text-shadow: 100px;
+            padding-left: 20px;
+            font-weight: bolder;
+
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #0b0b0b;
+            text-decoration: none;
+            font-weight: bolder;
+            font-size: medium;
+            padding-right: 50px;
+        }
+        nav a:hover{
+            color: #f7f7f7;
+            text-decoration: none;
+            font-weight: bolder;
+            font-size: medium;
+            padding-right: 50px;
+        }
+    </style>
+    <script>
+        let isRecording = false;
+        let mediaRecorder;
+        let audioChunks = [];
+        let audioUrl = '';
+        let audio;
+
+        function addMessage(content, isUser = true, type = 'text') {
+            const messages = document.querySelector('.chat-messages');
+            const message = document.createElement('div');
+            message.classList.add('chat-message', isUser ? 'user-message' : 'bot-message');
+
+            if (type === 'image') {
+                const img = document.createElement('img');
+                img.classList.add('message-image');
+                img.src = content;
+                message.appendChild(img);
+            } else if (type === 'audio') {
+                const audioPlayer = document.createElement('audio');
+                audioPlayer.controls = true;
+                audioPlayer.src = content;
+                message.appendChild(audioPlayer);
+            } else {
+                message.textContent = content;
+            }
+
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function processInput(input) {
+            const lowerInput = input.toLowerCase();
+
+            if (lowerInput.includes('fertilizer') && lowerInput.includes('crop')) {
+                return 'Use organic fertilizers such as Panchakavya and neem karaisal for your crops to boost growth and soil health.';
+            } else if (lowerInput.includes('weather')) {
+                return 'The 2-day weather forecast for Coimbatore is:\nDay 1: Sunny, 30°C, Humidity: 60%\nDay 2: Cloudy, 28°C, Humidity: 65%';
+            } else if (lowerInput.includes('sand')) {
+                return 'For sandy soil, crops like cotton, rice, and wheat are recommended. Tomato and onion can also thrive in sandy soil.';
+            } else if (lowerInput.includes('clay')) {
+                return 'Clay soil is best for crops like paddy, sugarcane, and legumes. They need plenty of water retention.';
+            } else if (lowerInput.includes('loamy')) {
+                return 'Loamy soil is ideal for vegetables like carrots, spinach, and potatoes. It retains nutrients well and allows for proper drainage.';
+            } else if (lowerInput.includes('market price')) {
+                return 'Current market prices:\n- Tomato: ₹40/kg\n- Rice: ₹30/kg\n- Wheat: ₹25/kg\n- Cotton: ₹100/kg\n- Onion: ₹20/kg\n- 1 month ago:\n- Tomato: ₹35/kg\n- 1 month forecast:\n- Tomato: ₹45/kg';
+            } else if (lowerInput.includes('disease')) {
+                return 'The plant shows signs of bacterial leaf blight. Use neem-based organic pesticides to treat the disease.';
+            } else {
+                return 'I\'m here to help with your agricultural queries. Please ask me about crops, fertilizers, weather updates, or market prices.';
+            }
+        }
+
+        function handleSendMessage() {
+            const input = document.querySelector('.chat-input input[type="text"]');
+            if (input.value.trim()) {
+                const userMessage = input.value;
+                addMessage(userMessage, true);
+
+                setTimeout(() => {
+                    const botReply = processInput(userMessage);
+                    addMessage(botReply, false);
+                }, 1000);
+
+                input.value = '';
+            }
+        }
+
+        function handleVoiceInput() {
+            const voiceButton = document.querySelector('.voice-record');
+            if (!isRecording) {
+                isRecording = true;
+                audioChunks = [];
+                voiceButton.textContent = "Stop Recording";
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(stream => {
+                        mediaRecorder = new MediaRecorder(stream);
+                        mediaRecorder.ondataavailable = event => audioChunks.push(event.data);
+                        mediaRecorder.onstop = () => {
+                            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                            audioUrl = URL.createObjectURL(audioBlob);
+                            addMessage("Voice message sent", true, 'audio');
+                            addMessage("Audio recorded, you can click to hear.", false);
+
+                            // Create the audio playback element
+                            audio = new Audio(audioUrl);
+                            // Add the audio message so it can be clicked and played
+                            addMessage(audioUrl, false, 'audio');
+                        };
+                        mediaRecorder.start();
+                    });
+            } else {
+                isRecording = false;
+                mediaRecorder.stop();
+                voiceButton.textContent = "Start Recording";
+            }
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const imgUrl = URL.createObjectURL(file);
+                addMessage(imgUrl, true, 'image');
+                addMessage("Image uploaded successfully.", false);
+
+                // Future processing (disease prediction)
+                addMessage("This image will be processed for disease prediction shortly.", false);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.chat-input button').addEventListener('click', handleSendMessage);
+            document.querySelector('.chat-input input[type="text"]').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleSendMessage();
+            });
+            document.querySelector('.chat-input .voice-record').addEventListener('click', handleVoiceInput);
+            document.querySelector('.chat-input input[type="file"]').addEventListener('change', handleImageUpload);
+
+            // Allow the user to click on a voice message to hear it
+            document.querySelector('.chat-messages').addEventListener('click', (e) => {
+                if (e.target.tagName === 'AUDIO') {
+                    e.target.play();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+
+    <header>
+        <h2>SMART - AG</h2>
+        <nav>
+            <a href="/login.html">Home</a>
+            <a href="/indexx.html" style="color: #d9edf7;">Features</a>
+            <a href="/profit.html">profit calculation</a>
+        </nav>
+    </header>
+
+        <h1>Agriculture News & Chatbot</h1>
+
+
+    <div class="container">
+        <div class="section">
+            <h2>Indian Agriculture News</h2>
+            <a id="indian-news-link" class="news-link" href="https://economictimes.indiatimes.com/news/economy/agriculture?from=mdr" target="_blank">View Indian News</a>
+        </div>
+
+        <div class="section">
+            <h2>Global Agriculture News</h2>
+            <a id="global-news-link" class="news-link" href="https://www.bbc.com/news/topics/ce1qrvleggxt" target="_blank">View Global News</a>
+        </div>
+
+        <div class="section">
+            <h2>Farming Community Chat</h2>
+            <div class="chat-box">
+                <div class="chat-messages"></div>
+                <div class="chat-input">
+                    <input type="text" placeholder="Type a message...">
+                    <input type="file" accept="image/*">
+                    <button>Send</button>
+                    <button class="voice-record">Start Recording</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Live Agricultural Content</h2>
+            <!-- <iframe src="https://youtu.be/IT89q7yF3Cg?si=HkU1teZr4TiaIqu1" allowfullscreen></iframe> -->
+            <iframe width="440" height="355" src="https://www.youtube.com/embed/IT89q7yF3Cg?si=z-chPoNvKIDddAat" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div>
+</body>
+</html>

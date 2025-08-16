@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Prediction System</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 10px;
+            background: linear-gradient(to right, #07660e, #0e8c1b);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-shadow: 100px;
+            padding-left: 20px;
+            font-weight: bolder;
+
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #0b0b0b;
+            text-decoration: none;
+            font-weight: bolder;
+            font-size: medium;
+            padding-right: 50px;
+        }
+        nav a:hover{
+            color: #f7f7f7;
+            text-decoration: none;
+            font-weight: bolder;
+            font-size: medium;
+            padding-right: 50px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .prediction-box {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .prediction-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4caf50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin: 10px 0;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .input-group button {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .input-group button:hover {
+            background-color: #45a049;
+        }
+
+        .results {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .results h3 {
+            color: #4caf50;
+        }
+
+        .results p {
+            margin: 5px 0;
+        }
+
+        .crop-image {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+        }
+
+        .timeline {
+            margin-top: 20px;
+            border-top: 2px solid #4caf50;
+            padding-top: 20px;
+        }
+
+        .timeline h4 {
+            color: #4caf50;
+            text-align: center;
+        }
+
+        .timeline table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .timeline table, .timeline th, .timeline td {
+            border: 1px solid #ddd;
+        }
+
+        .timeline th, .timeline td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        .timeline th {
+            background-color: #4caf50;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>SMART - AG</h1>
+        <nav>
+            <a href="/login.html">Home</a>
+            <a href="/indexx.html" style="color: #eef9f1;">Features</a>
+            <a href="/profit.html">profit calculation</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="prediction-box">
+            <div class="prediction-title">Crop Prediction System</div>
+
+            <!-- Form Inputs -->
+            <div class="input-group">
+                <label for="nitrogen">Nitrogen Content (N)</label>
+                <input type="number" id="nitrogen" placeholder="Enter nitrogen content">
+            </div>
+
+            <div class="input-group">
+                <label for="phosphorus">Phosphorus Content (P)</label>
+                <input type="number" id="phosphorus" placeholder="Enter phosphorus content">
+            </div>
+
+            <div class="input-group">
+                <label for="potassium">Potassium Content (K)</label>
+                <input type="number" id="potassium" placeholder="Enter potassium content">
+            </div>
+
+            <div class="input-group">
+                <label for="temperature">Temperature (°C)</label>
+                <input type="number" id="temperature" placeholder="Enter temperature">
+            </div>
+
+            <div class="input-group">
+                <label for="humidity">Humidity (%)</label>
+                <input type="number" id="humidity" placeholder="Enter humidity">
+            </div>
+
+            <div class="input-group">
+                <label for="soilph">Soil pH</label>
+                <input type="number" id="soilph" placeholder="Enter soil pH">
+            </div>
+
+            <div class="input-group">
+                <label for="rainfall">Rainfall (mm)</label>
+                <input type="number" id="rainfall" placeholder="Enter rainfall">
+            </div>
+
+            <div class="input-group">
+                <label for="water-supply">Water Supply</label>
+                <select id="water-supply">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="soil-type">Soil Type</label>
+                <select id="soil-type">
+                    <option value="sandy">Sandy</option>
+                    <option value="clay">Clay</option>
+                    <option value="loamy">Loamy</option>
+                    <option value="silty">Silty</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <button onclick="predictCrop()">Predict Crop</button>
+            </div>
+
+            <div class="results" id="results"></div>
+            <div class="timeline" id="timeline"></div>
+        </div>
+    </div>
+
+    <script>
+        function predictCrop() {
+            // Get user inputs
+            const nitrogen = document.getElementById('nitrogen').value;
+            const phosphorus = document.getElementById('phosphorus').value;
+            const potassium = document.getElementById('potassium').value;
+            const temperature = document.getElementById('temperature').value;
+            const humidity = document.getElementById('humidity').value;
+            const soilph = document.getElementById('soilph').value;
+            const rainfall = document.getElementById('rainfall').value;
+            const waterSupply = document.getElementById('water-supply').value;
+            const soilType = document.getElementById('soil-type').value;
+
+            // Check if all fields are filled
+            if (!nitrogen || !phosphorus || !potassium || !temperature || !humidity || !soilph || !rainfall) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Prepare the results and timeline display
+            let resultsDiv = document.getElementById('results');
+            let timelineDiv = document.getElementById('timeline');
+            resultsDiv.innerHTML = '';
+            timelineDiv.innerHTML = '';
+
+            // Logic for crop prediction
+            let recommendedCrops = [];
+            let cropTimeline = '';
+
+            // Basic condition for soil type, water supply, etc.
+            if (soilType === "loamy" && waterSupply === "yes" && soilph >= 6 && soilph <= 7) {
+                recommendedCrops.push({
+                    name: "Wheat",
+                    tamilName: "கோதுமை",
+                    image: "https://example.com/wheat.jpg",
+                    marketRate: "₹59/kg",
+                    tips: "Ensure regular irrigation and use balanced fertilizers."
+                });
+
+                cropTimeline = `
+                    <h4>Wheat,tomato,potatoes Planting Timeline</h4>
+                    <table>
+                        <tr><th>Month</th><th>Activity</th></tr>
+                        <tr><td>Month 1-2</td><td>Sow seeds, ensure proper irrigation.</td></tr>
+                        <tr><td>Month 3</td><td>Fertilize with nitrogen and phosphorus.</td></tr>
+                        <tr><td>Month 4-5</td><td>Weed control and pest management.</td></tr>
+                        <tr><td>Month 6</td><td>Harvest when grains are hard and dry.</td></tr>
+                    </table>
+                `;
+                
+
+                recommendedCrops.push({
+                    name: "Cotton",
+                    tamilName: "பருத்தி",
+                    image: "https://example.com/cotton.jpg",
+                    marketRate: "₹25/kg",
+                    tips: "Ensure regular irrigation and use balanced fertilizers."
+                });
+
+                cropTimeline = `
+                    <h4>cotton Planting Timeline</h4>
+                    <table>
+                        <tr><th>Month</th><th>Activity</th></tr>
+                        <tr><td>Month 1-2</td><td>Sow seeds, ensure proper irrigation.</td></tr>
+                        <tr><td>Month 3</td><td>Fertilize with nitrogen and phosphorus.</td></tr>
+                        <tr><td>Month 4-5</td><td>Weed control and pest management.</td></tr>
+                        <tr><td>Month 6</td><td>Harvest when grains are hard and dry.</td></tr>
+                    </table>
+                `;
+                recommendedCrops.push({
+                    name: "Tomato",
+                    tamilName: "தக்காளி",
+                    image: "https://example.com/tomato.jpg",
+                    marketRate: "₹50/kg",
+                    tips: "Ensure regular irrigation and use balanced fertilizers."
+                });
+
+                cropTimeline = `
+                    <h4>tomato Planting Timeline</h4>
+                    <table>
+                        <tr><th>Month</th><th>Activity</th></tr>
+                        <tr><td>Month 1-2</td><td>Sow seeds, ensure proper irrigation.</td></tr>
+                        <tr><td>Month 3</td><td>Fertilize with nitrogen and phosphorus.</td></tr>
+                        <tr><td>Month 4-5</td><td>Weed control and pest management.</td></tr>
+                        <tr><td>Month 6</td><td>Harvest when grains are hard and dry.</td></tr>
+                    </table>
+                `;
+            } else if (soilType === "sandy" && waterSupply === "yes" && soilph >= 5 && soilph <= 6) {
+                recommendedCrops.push({
+                    name: "Carrot",
+                    tamilName: "கேரட்",
+                    image: "https://example.com/carrot.jpg",
+                    marketRate: "₹50/kg",
+                    tips: "Maintain proper water levels and use organic manure."
+                });
+
+                cropTimeline = `
+                    <h4>carrot Planting Timeline</h4>
+                    <table>
+                        <tr><th>Month</th><th>Activity</th></tr>
+                        <tr><td>Month 1-2</td><td>Sow seeds, ensure proper water levels.</td></tr>
+                        <tr><td>Month 3</td><td>Apply organic manure and control pests.</td></tr>
+                        <tr><td>Month 4-5</td><td>Ensure consistent irrigation.</td></tr>
+                        <tr><td>Month 6-7</td><td>Harvest when panicles turn golden yellow.</td></tr>
+                    </table>
+                `;
+                recommendedCrops.push({
+                    name: "potatoes",
+                    tamilName: "உருளைக்கிழங்கு",
+                    image: "https://example.com/potatoes.jpg",
+                    marketRate: "₹50/kg",
+                    tips: "Maintain proper water levels and use organic manure."
+                });
+
+                cropTimeline = `
+                    <h4>potatoes Planting Timeline</h4>
+                    <table>
+                        <tr><th>Month</th><th>Activity</th></tr>
+                        <tr><td>Month 1-2</td><td>Sow seeds, ensure proper water levels.</td></tr>
+                        <tr><td>Month 3</td><td>Apply organic manure and control pests.</td></tr>
+                        <tr><td>Month 4-5</td><td>Ensure consistent irrigation.</td></tr>
+                        <tr><td>Month 6-7</td><td>Harvest when panicles turn golden yellow.</td></tr>
+                    </table>
+                `;
+                }else if (soilType === "clay" && waterSupply === "yes" && soilph >= 8 && soilph <= 9) {
+                recommendedCrops.push({
+                    name: "Broccoli",
+                    tamilName: "ப்ரோக்கோலி",
+                    image: "https://example.com/broccoli.jpg",
+                    marketRate: "₹192/kg",
+                    tips: "Maintain proper water levels and use organic manure."
+                });
+
+                cropTimeline = `
+                    <h4>broccoli Planting Timeline</h4>
+                    <table>
+                        <tr><th>Month</th><th>Activity</th></tr>
+                        <tr><td>Month 1-2</td><td>Sow seeds, ensure proper water levels.</td></tr>
+                        <tr><td>Month 3</td><td>Apply organic manure and control pests.</td></tr>
+                        <tr><td>Month 4-5</td><td>Ensure consistent irrigation.</td></tr>
+                        <tr><td>Month 6-7</td><td>Harvest when panicles turn golden yellow.</td></tr>
+                    </table>
+                `;
+                recommendedCrops.push({
+                    name: "Winter wheat",
+                    tamilName: "குளிர்கால கோதுமை",
+                    image: "https://example.com/wheat.jpg",
+                    marketRate: "₹58/kg",
+                    tips: "Maintain proper water levels and use organic manure."
+                });
+
+                cropTimeline = `
+                    <h4>winter wheat Planting Timeline</h4>
+                    <table>
+                        <tr><th>Month</th><th>Activity</th></tr>
+                        <tr><td>Month 1-2</td><td>Sow seeds, ensure proper water levels.</td></tr>
+                        <tr><td>Month 3</td><td>Apply organic manure and control pests.</td></tr>
+                        <tr><td>Month 4-5</td><td>Ensure consistent irrigation.</td></tr>
+                        <tr><td>Month 6-7</td><td>Harvest when panicles turn golden yellow.</td></tr>
+                    </table>
+                `;
+                }else if (soilType === "silty" && waterSupply === "yes" && soilph >= 7 && soilph <= 8) {
+                recommendedCrops.push({
+                    name: "Onion",
+                    tamilName: "வெங்காயம்",
+                    image: "https://example.com/onion.jpg",
+                    marketRate: "₹100/kg",
+                    tips: "Maintain proper water levels and use organic manure."
+                });
+
+                cropTimeline = `
+                    <h4>onion Planting Timeline</h4>
+                    <table>
+                        <tr><th>Month</th><th>Activity</th></tr>
+                        <tr><td>Month 1-2</td><td>Sow seeds, ensure proper water levels.</td></tr>
+                        <tr><td>Month 3</td><td>Apply organic manure and control pests.</td></tr>
+                        <tr><td>Month 4-5</td><td>Ensure consistent irrigation.</td></tr>
+                        <tr><td>Month 6-7</td><td>Harvest when panicles turn golden yellow.</td></tr>
+                    </table>
+                `;
+                recommendedCrops.push({
+                    name: "Willo tree",
+                    tamilName: "வில்லோ மரம்",
+                    image: "https://example.com/tree.jpg",
+                    marketRate: "₹1200/kg Like powder",
+                    tips: "Maintain proper water levels and use organic manure."
+                });
+
+                cropTimeline = `
+                    <h4>willo tree Planting Timeline</h4>
+                    <table>
+                        <tr><th>Month</th><th>Activity</th></tr>
+                        <tr><td>Month 1-2</td><td>Sow seeds, ensure proper water levels.</td></tr>
+                        <tr><td>Month 3</td><td>Apply organic manure and control pests.</td></tr>
+                        <tr><td>Month 4-5</td><td>Ensure consistent irrigation.</td></tr>
+                        <tr><td>Month 6-7</td><td>Harvest when panicles turn golden yellow.</td></tr>
+                    </table>
+                `;
+            } else if (soilType === "clay" && waterSupply === "no" && rainfall > 700) {
+                    recommendedCrops.push({
+                        name: "Rice",
+                        tamilName: "அரிசி",
+                        image: "https://example.com/rice.jpg",
+                        tips: "Maintain proper water levels and use organic manure. Harvest when the panicles are golden yellow.",
+                        marketRate: "₹40/kg"
+                    });
+                    recommendedCrops.push({
+                        name: "Sugarcane",
+                        tamilName: "கரும்பு",
+                        image: "https://example.com/sugarcane.jpg",
+                        tips: "Plant in fertile soil with proper irrigation. Harvest when the stalks are mature and firm.",
+                        marketRate: "₹30/kg"
+                    });
+                }else {
+                recommendedCrops.push({
+                    name: "Maize",
+                    tamilName: "மக்காச்சோளம்",
+                    image: "https://example.com/maize.jpg",
+                    marketRate: "₹20/kg",
+                    tips: "Ensure good drainage and weed control."
+                });
+
+                cropTimeline = `
+                    <h4>Maize Planting Timeline</h4>
+                    <table>
+                        <tr><th>Month</th><th>Activity</th></tr>
+                        <tr><td>Month 1</td><td>Sow seeds in well-drained soil.</td></tr>
+                        <tr><td>Month 2-3</td><td>Apply balanced fertilizer and control pests.</td></tr>
+                        <tr><td>Month 4-5</td><td>Weed control and irrigation.</td></tr>
+                        <tr><td>Month 6</td><td>Harvest when husks are dry and brown.</td></tr>
+                    </table>
+                `;
+                recommendedCrops.push({
+                    name: "Rosemary",
+                    tamilName: "ரோஸ்மேரி",
+                    image: "https://example.com/rosemary.jpg",
+                    marketRate: "₹625/kg",
+                    tips: "Ensure good drainage and weed control."
+                });
+
+                cropTimeline = `
+                    <h4>rosemary Planting Timeline</h4>
+                    <table>
+                        <tr><th>Month</th><th>Activity</th></tr>
+                        <tr><td>Month 1</td><td>Sow seeds in well-drained soil.</td></tr>
+                        <tr><td>Month 2-3</td><td>Apply balanced fertilizer and control pests.</td></tr>
+                        <tr><td>Month 4-5</td><td>Weed control and irrigation.</td></tr>
+                        <tr><td>Month 6</td><td>Harvest when husks are dry and brown.</td></tr>
+                    </table>
+                `;
+                recommendedCrops.push({
+                    name: "chickpeas",
+                    tamilName: "கொண்டைக்கடலை",
+                    image: "https://example.com/chickpeas.jpg",
+                    marketRate: "₹346/kg",
+                    tips: "Ensure good drainage and weed control."
+                });
+
+                cropTimeline = `
+                    <h4>chickpeas Planting Timeline</h4>
+                    <table>
+                        <tr><th>Month</th><th>Activity</th></tr>
+                        <tr><td>Month 1</td><td>Sow seeds in well-drained soil.</td></tr>
+                        <tr><td>Month 2-3</td><td>Apply balanced fertilizer and control pests.</td></tr>
+                        <tr><td>Month 4-5</td><td>Weed control and irrigation.</td></tr>
+                        <tr><td>Month 6</td><td>Harvest when husks are dry and brown.</td></tr>
+                    </table>
+                `;
+            }
+
+            // Display the results if any crops were recommended
+            if (recommendedCrops.length > 0) {
+                let output = "<h3>Recommended Crops:</h3>";
+                recommendedCrops.forEach(crop => {
+                    output += `
+                        <div>
+                            <h4>${crop.name} (${crop.tamilName})</h4>
+                            <img class="crop-image" src="${crop.image}" alt="${crop.name}">
+                            <p><strong>Market Rate:</strong> ${crop.marketRate}</p>
+                            <p><strong>Tips:</strong> ${crop.tips}</p>
+                        </div>
+                    `;
+                });
+                resultsDiv.innerHTML = output;
+                timelineDiv.innerHTML = cropTimeline;
+            } else {
+                resultsDiv.innerHTML = "<p>No crop found for the given conditions. Try adjusting the inputs.</p>";
+            }
+        }
+    </script>
+</body>
+</html>

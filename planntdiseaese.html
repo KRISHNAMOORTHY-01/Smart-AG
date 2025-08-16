@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Disease Identification and Fertilizer Recommendation</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+        }
+
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 85vh;
+            padding-bottom: 50px;
+
+        }
+
+        .prediction-box {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .prediction-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4caf50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin: 10px 0;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .input-group button {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .input-group button:hover {
+            background-color: #45a049;
+        }
+
+        .results {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .results h3 {
+            color: #4caf50;
+        }
+
+        .results p {
+            margin: 5px 0;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 10px;
+            background: linear-gradient(to right, #07660e, #0e8c1b);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-shadow: 100px;
+            padding-left: 20px;
+            font-weight: bolder;
+
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #0b0b0b;
+            text-decoration: none;
+            font-weight: bolder;
+            font-size: medium;
+            padding-right: 50px;
+        }
+        nav a:hover{
+            color: #f7f7f7;
+            text-decoration: none;
+            font-weight: bolder;
+            font-size: medium;
+            padding-right: 50px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>SMART - AG</h1>
+        <nav>
+            <a href="/login.html">Home</a>
+            <a href="/indexx.html" style="color: #f3f4f6;">Features</a>
+            <a href="/profit.html">profit calculation</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="prediction-box">
+            <div class="prediction-title">Plant Disease Identification and Fertilizer Recommendation</div>
+        <br>
+            <!-- Form Inputs -->
+            <div class="input-group">
+                <label for="plant-name">Plant Name</label>
+                <input type="text" id="plant-name" placeholder="Enter plant name">
+            </div>
+
+            <div class="input-group">
+                <label for="soil-type">Soil Type</label>
+                <select id="soil-type">
+                    <option value="sandy">Sandy</option>
+                    <option value="clay">Clay</option>
+                    <option value="loamy">Loamy</option>
+                    <option value="silty">Silty</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="temperature">Temperature (°C)</label>
+                <input type="number" id="temperature" placeholder="Enter temperature">
+            </div>
+
+            <div class="input-group">
+                <label for="disease-image">Upload Plant Disease Image</label>
+                <input type="file" id="disease-image" accept="image/*">
+            </div>
+
+            <div class="input-group">
+                <button onclick="identifyDisease()">Identify Disease</button>
+            </div>
+
+            <div class="results" id="results"></div>
+        </div>
+    </div>
+
+    <script>
+        function identifyDisease() {
+            const plantName = document.getElementById('plant-name').value;
+            const soilType = document.getElementById('soil-type').value;
+            const temperature = document.getElementById('temperature').value;
+            const diseaseImage = document.getElementById('disease-image').files[0];
+
+            // Check if all fields are filled
+            if (!plantName || !soilType || !temperature || !diseaseImage) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Placeholder for disease identification logic
+            const diseaseDetected = "Powdery Mildew";  // Example disease
+            const diseaseInfo = `
+                <h3>Disease Detected: ${diseaseDetected}</h3>
+                <p><strong>Description:</strong> Powdery mildew is a fungal disease that affects many plants. It appears as white or grayish powdery spots on leaves and stems. It thrives in warm, dry conditions.</p>
+                <p><strong>பயிரின் வியாதி பற்றிய விளக்கம்:</strong> தூய்மையான மசினுடன் செடி பக்கங்களை மற்றும் இலைகளை பாதிக்கும் பூஞ்சை தொற்றாகும். இது வெண்மையான அல்லது சாம்பலான தூளான பகுதிகளாகத் தெரிகின்றது. இது சூடான மற்றும் உலர்ந்த சூழ்நிலைகளில் பரவுகிறது.</p>
+<br>
+<br>
+
+                <p><strong>Prevention and Treatment:</strong> To prevent the spread, remove affected parts of the plant, increase air circulation, and avoid overhead watering. Use fungicides like sulfur or neem oil as a preventive treatment.</p>
+                <p><strong>இருந்துகொள்வதற்கும் சிகிச்சை:</strong> பரவலையும் தடுப்பதற்கும், பாதிக்கப்பட்ட பகுதிகளை அகற்றவும், காற்று ஓட்டத்தை அதிகரிக்கவும், மேலிருந்து நீர் வைப்பதை தவிர்க்கவும். தாவரங்களை பராமரிப்பதற்காக சூல்பர் அல்லது நீம் எண்ணெய் போன்ற பூஞ்சை எதிர்ப்பு மருந்துகளை பயன்படுத்தவும்.</p>
+            `;
+
+            // Fertilizer recommendation based on disease
+            const fertilizerRecommendation = `
+                <h3>Organic Fertilizer Recommendation:</h3>
+                <p>For ${plantName}, an organic fertilizer like composted manure or organic nitrogen fertilizers (e.g., fish emulsion) can improve plant health and reduce the risk of diseases like Powdery Mildew. Apply the fertilizer during early growth stages to strengthen plant resistance.</p>
+<br>
+<br>
+                <p><strong>உயிரணு உர பரிந்துரைகள்:</strong> ${plantName} க்கு, உரக்கடைத்த கழிவுகள் அல்லது உயிரணு நைட்ரஜன் உரங்கள் (எ.கா., மீன் ஊதுபொருள்) செடியின் ஆரோக்கியத்தை மேம்படுத்த உதவும் மற்றும் தூய்மையான மசினுக்கான பாதிப்பை குறைக்க உதவும். செடி வளர்ச்சி நிலைகளின் ஆரம்பத்தில் உரத்தை பயன்படுத்தி செடியின் எதிர்ப்பு சக்தியை அதிகரிக்கவும்.</p>
+            `;
+
+            // Display results
+            let resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = diseaseInfo + fertilizerRecommendation;
+        }
+    </script>
+</body>
+</html>
